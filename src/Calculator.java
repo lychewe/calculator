@@ -29,6 +29,7 @@ public class Calculator {
     JLabel displayLabel = new JLabel(); //put label inside panel
     JPanel displayPanel = new JPanel(); //put panel inside frame (the window) 
     JPanel buttonsPanel = new JPanel(); 
+    JButton acButton; //ac to c button
     
     //calculator inputs 
     String A = "0";
@@ -38,7 +39,7 @@ public class Calculator {
 
     Calculator() { //constructor
         //window setup
-        // frame.setVisible(true); //so u can see this window
+        frame.setVisible(true); //so u can see this window
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null); //cuz this is the calculator window
         frame.setResizable(false);
@@ -48,7 +49,7 @@ public class Calculator {
         //styling for the label
         displayLabel.setBackground(customDarkBlue);
         displayLabel.setForeground(Color.white); //text color 
-        displayLabel.setFont(new Font("Arial", Font.PLAIN, 80));
+        displayLabel.setFont(new Font("Arial", Font.PLAIN, 76));
         displayLabel.setHorizontalAlignment(JLabel.RIGHT);
         displayLabel.setText("0");
         displayLabel.setOpaque(true); 
@@ -66,6 +67,13 @@ public class Calculator {
         for(int i = 0; i < buttonValues.length; i++) {
             JButton button = new JButton();
             String buttonValue = buttonValues[i];
+
+            
+            if(buttonValue.equals("AC")) {
+                acButton = button;
+            }
+            
+            
             button.setFont(new Font("Arial", Font.PLAIN, 30));
             button.setText(buttonValue);
             button.setFocusable(false); //rectangle around button's text..
@@ -90,23 +98,32 @@ public class Calculator {
 
             //RECEIVING INPUT
             button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) { //e refers to the wtv action, like clicking 
-                    JButton button = (JButton) e.getSource(); //if u click, now the click is a jbutton 
+                public void actionPerformed(ActionEvent event) { //event refers to the wtv action, like clicking 
+                    JButton button = (JButton) event.getSource(); //if u click, now the click is a jbutton 
                     String buttonValue = button.getText();
+                    if(button == acButton) {
+                            clearAll();
+                            displayLabel.setText("0");
+
+                            updateACButton(false);
+                        }
                     if(Arrays.asList(topSymbols).contains(buttonValue)) {
+                        /* 
                         if(buttonValue.equals("AC")) {
                             clearAll();
                             displayLabel.setText("0"); 
-                        }
-                        else if(buttonValue.equals("+/-")) {
+                        } */
+                        if(buttonValue.equals("+/-")) {
                             double input = Double.parseDouble(displayLabel.getText());
                             input *= -1;
                             displayLabel.setText(removeZeroDecimal(input));
+                            updateACButton(true);
                         }
                         else if(buttonValue.equals("%")) {
                             double input = Double.parseDouble(displayLabel.getText());
                             input /= 100;
                             displayLabel.setText(removeZeroDecimal(input));
+                            updateACButton(true);
                         }
                     }
                     else if(Arrays.asList(rightSymbols).contains(buttonValue)) {
@@ -148,6 +165,7 @@ public class Calculator {
                             if(!displayLabel.getText().contains(buttonValue)) {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
                             }
+                            updateACButton(true);
                         }
                         else if("0123456789".contains(buttonValue)) {
                             if(displayLabel.getText().equals("0")) {
@@ -156,6 +174,7 @@ public class Calculator {
                             else {
                                 displayLabel.setText(displayLabel.getText() + buttonValue); //concatenates, not adds cuz these r strings
                             }
+                            updateACButton(true);
                         }
                         else if(buttonValue.equals("√")) { //sqrt operator
                             String s = displayLabel.getText();
@@ -170,6 +189,7 @@ public class Calculator {
                                 else {
                                     displayLabel.setText(Double.toString(sqrtinput));
                                 } */
+                               updateACButton(true);
                             }
                             else {
                                 displayLabel.setText("Error");
@@ -179,7 +199,6 @@ public class Calculator {
                     }
                 }
             }); 
-            frame.setVisible(true); //so u can see this window
         }
     }
     void clearAll() {
@@ -193,5 +212,14 @@ public class Calculator {
             return Integer.toString((int) value);
         }
         return Double.toString(value);
+    }
+
+    void updateACButton(boolean theInput) {
+        if(theInput == true) {
+            acButton.setText("C");
+        }
+        else {
+            acButton.setText("AC");
+        }
     }
 }
