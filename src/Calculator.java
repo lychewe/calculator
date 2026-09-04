@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class Calculator {
-    int boardWidth = 360; //JFrame, board is the window
+    int boardWidth = 360; 
     int boardHeight = 540;
 
     Color customLightBlue = new Color(200, 214, 225);
@@ -25,9 +25,9 @@ public class Calculator {
     String[] rightSymbols = {"÷", "×", "-", "+", "="};
     String[] topSymbols = {"AC", "+/-", "%"};
  
-    JFrame frame = new JFrame("𓂃˖ calculator ☘︎ ݁˖"); //JFrame = used to create graphical user interface
-    JLabel displayLabel = new JLabel(); //put label inside panel
-    JPanel displayPanel = new JPanel(); //put panel inside frame (the window) 
+    JFrame frame = new JFrame("𓂃˖ calculator ☘︎ ݁˖"); 
+    JLabel displayLabel = new JLabel(); 
+    JPanel displayPanel = new JPanel();  
     JPanel buttonsPanel = new JPanel(); 
     JButton acButton; //ac to c button
     
@@ -37,14 +37,14 @@ public class Calculator {
     String B = null;
 
 
-    Calculator() { //constructor
+    Calculator() { 
         //window setup
-        frame.setVisible(true); //so u can see this window
+        frame.setVisible(true); 
         frame.setSize(boardWidth, boardHeight);
-        frame.setLocationRelativeTo(null); //cuz this is the calculator window
+        frame.setLocationRelativeTo(null); 
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //user click on X button = terminates
-        frame.setLayout(new BorderLayout());  //makes it so u can place components n/s/e/w/center
+        frame.setLayout(new BorderLayout());  
 
         //styling for the label
         displayLabel.setBackground(customDarkBlue);
@@ -52,7 +52,9 @@ public class Calculator {
         displayLabel.setFont(new Font("Arial", Font.PLAIN, 76));
         displayLabel.setHorizontalAlignment(JLabel.RIGHT);
         displayLabel.setText("0");
-        displayLabel.setOpaque(true); 
+        displayLabel.setOpaque(true);
+        displayLabel.setBorder(BorderFactory.createEmptyBorder(0,0, 0, 8));
+
 
         //styling for the panel
         displayPanel.setLayout(new BorderLayout());
@@ -76,8 +78,8 @@ public class Calculator {
             
             button.setFont(new Font("Arial", Font.PLAIN, 30));
             button.setText(buttonValue);
-            button.setFocusable(false); //rectangle around button's text..
-            button.setBorder(new LineBorder(customDarkBlue)); //something is fucked bro this doesn't show up omfg
+            button.setFocusable(false); 
+            button.setBorder(new LineBorder(customDarkBlue)); 
             if(Arrays.asList(topSymbols).contains(buttonValue)) {
                 button.setBackground(customLightBlue);
                 button.setForeground(Color.black);
@@ -98,7 +100,7 @@ public class Calculator {
 
             //RECEIVING INPUT
             button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) { //event refers to the wtv action, like clicking 
+                public void actionPerformed(ActionEvent event) {  
                     JButton button = (JButton) event.getSource(); //if u click, now the click is a jbutton 
                     String buttonValue = button.getText();
                     if(button == acButton) {
@@ -172,7 +174,7 @@ public class Calculator {
                                 displayLabel.setText(buttonValue); 
                             }
                             else {
-                                displayLabel.setText(displayLabel.getText() + buttonValue); //concatenates, not adds cuz these r strings
+                                displayLabel.setText(displayLabel.getText() + buttonValue); //concatenates
                             }
                             updateACButton(true);
                         }
